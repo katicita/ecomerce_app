@@ -1,4 +1,5 @@
 import 'package:ecomerce_app/components/default_button.dart';
+import 'package:ecomerce_app/screen/home/home_screen.dart';
 import 'package:ecomerce_app/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,10 @@ class BodyLoginSuccess extends StatelessWidget {
         Spacer(),
         SizedBox(
           width: SizeConfig.screenWidth * 0.6,
-          child: DefaultButton(text: "Back to Home", press: () {}),
+          child: DefaultButton(
+            text: "Back to Home",
+            press: () => Navigator.pushNamed(context, HomeScreen.routeName),
+          ),
         ),
         Spacer(),
       ],
