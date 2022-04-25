@@ -1,3 +1,4 @@
+import 'package:ecomerce_app/screen/Details/detail_screen.dart';
 import 'package:ecomerce_app/screen/home/section_title.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,12 @@ class PopularProducts extends StatelessWidget {
                 demoProducts.length,
                 (index) => ProductCar(
                   product: demoProducts[index],
+                  press: () => Navigator.pushNamed(
+                    context,
+                    DetailsScreen.routeName,
+                    arguments:
+                        ProductDetailsArguments(product: demoProducts[index]),
+                  ),
                 ),
               ),
               SizedBox(height: getProportionateScreenWidth(20)),
