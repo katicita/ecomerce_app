@@ -77,14 +77,17 @@ class _SignUpFormState extends State<SignUpForm> {
             errors.contains(kInvalidEmailError)) {
           removeError(kInvalidEmailError);
         }
+        return null;
       },
       validator: (value) {
         if ((value == null || value.isEmpty) &&
             !errors.contains(kEmailNullError)) {
           addError(kEmailNullError);
+          return "";
         } else if (!emailValidatorRegExp.hasMatch(value!) &&
             !errors.contains(kInvalidEmailError)) {
           addError(kInvalidEmailError);
+          return "";
         }
         return null;
       },
@@ -108,13 +111,16 @@ class _SignUpFormState extends State<SignUpForm> {
           removeError(kShortPassError);
         }
         password = value;
+        return null;
       },
       validator: (value) {
         if ((value == null || value.isEmpty) &&
             !errors.contains(kPassNullError)) {
           addError(kPassNullError);
+          return "";
         } else if (value!.length < 8 && !errors.contains(kShortPassError)) {
           addError(kShortPassError);
+          return "";
         }
         return null;
       },
@@ -139,6 +145,7 @@ class _SignUpFormState extends State<SignUpForm> {
           removeError(kMatchPassError);
         }
         conform_password = value;
+        return null;
       },
       validator: (value) {
         if (value == null || value.isEmpty) {

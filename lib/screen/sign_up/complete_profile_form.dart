@@ -76,11 +76,13 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         if (value.isNotEmpty && errors.contains(kNamelNullError)) {
           removeError(kNamelNullError);
         }
+        return null;
       },
       validator: (value) {
         if ((value == null || value.isEmpty) &&
             !errors.contains(kNamelNullError)) {
           addError(kNamelNullError);
+          return "";
         }
         return null;
       },
@@ -114,11 +116,13 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         if (value.isNotEmpty && errors.contains(kPhoneNumberNullError)) {
           removeError(kPhoneNumberNullError);
         }
+        return null;
       },
       validator: (value) {
         if ((value == null || value.isEmpty) &&
             !errors.contains(kPhoneNumberNullError)) {
           addError(kPhoneNumberNullError);
+          return "";
         }
         return null;
       },
@@ -139,11 +143,13 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         if (value.isNotEmpty && errors.contains(kAddressNullError)) {
           removeError(kAddressNullError);
         }
+        return null;
       },
       validator: (value) {
         if ((value == null || value.isEmpty) &&
             !errors.contains(kAddressNullError)) {
           addError(kAddressNullError);
+          return "";
         }
         return null;
       },

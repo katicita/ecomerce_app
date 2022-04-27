@@ -6,7 +6,6 @@ import '../enums.dart';
 import '../screen/home/home_screen.dart';
 import '../screen/profile/profile_screen.dart';
 
-
 class CustomBottomNavBar extends StatelessWidget {
   const CustomBottomNavBar({
     Key? key,

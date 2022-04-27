@@ -16,53 +16,33 @@ class SignForm extends StatefulWidget {
 }
 
 class _SignFormState extends State<SignForm> {
-  final _formKey = GlobalKey<FormState>();
-  final List<String> errors = [];
+  final _formKeySignIn = GlobalKey<FormState>();
 
-  late String email, password;
+  List<String> errors = [];
+  String email = "";
+  String password = "";
   bool remember = false;
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: _formKeySignIn,
       child: Column(
         children: [
           buildEmailFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPasswordFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          Row(
-            children: [
-              Checkbox(
-                value: remember,
-                activeColor: kPrimaryColor,
-                onChanged: (value) {
-                  setState(() {
-                    remember = value!;
-                  });
-                },
-              ),
-              const Text("Remember me"),
-              const Spacer(),
-              GestureDetector(
-                onTap: () => Navigator.pushNamed(
-                    context, ForgotPasswordScreen.routeName),
-                child: const Text(
-                  "Forgot password",
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
-              ),
-            ],
-          ),
+          rememberAndForgotPass(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(30)),
           DefaultButton(
             text: 'Continue',
             press: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                //If all is ok
+              if (_formKeySignIn.currentState != null &&
+                  _formKeySignIn.currentState!.validate()) {
+                _formKeySignIn.currentState!.save();
+                //Go to complete profile page
                 Navigator.pushNamed(context, LoginSuccessScreen.routeName);
               }
             },
@@ -72,33 +52,70 @@ class _SignFormState extends State<SignForm> {
     );
   }
 
+  Widget rememberAndForgotPass() {
+    return Row(
+      children: [
+        Checkbox(
+          value: remember,
+          activeColor: kPrimaryColor,
+          onChanged: (value) {
+            setState(() {
+              remember = value!;
+            });
+          },
+        ),
+        const Text("Remember me"),
+        const Spacer(),
+        GestureDetector(
+          onTap: () =>
+              Navigator.pushNamed(context, ForgotPasswordScreen.routeName),
+          child: const Text(
+            "Forgot password",
+            style: TextStyle(decoration: TextDecoration.underline),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void removeError(String error) {
+    if (errors.contains(error)) {
+      setState(() {
+        errors.remove(error);
+      });
+    }
+  }
+
+  void addError(String error) {
+    if (!errors.contains(error)) {
+      setState(() {
+        errors.add(error);
+      });
+    }
+  }
+
   TextFormField buildEmailFormField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => email = newValue!,
       onChanged: (value) {
         if (value.isNotEmpty && errors.contains(kEmailNullError)) {
-          setState(() {
-            errors.remove(kEmailNullError);
-          });
+          removeError(kEmailNullError);
         } else if (emailValidatorRegExp.hasMatch(value) &&
             errors.contains(kInvalidEmailError)) {
-          setState(() {
-            errors.remove(kInvalidEmailError);
-          });
+          removeError(kInvalidEmailError);
         }
+        return null;
       },
       validator: (value) {
         if ((value == null || value.isEmpty) &&
             !errors.contains(kEmailNullError)) {
-          setState(() {
-            errors.add(kEmailNullError);
-          });
+          addError(kEmailNullError);
+          return "";
         } else if (!emailValidatorRegExp.hasMatch(value!) &&
             !errors.contains(kInvalidEmailError)) {
-          setState(() {
-            errors.add(kInvalidEmailError);
-          });
+          addError(kInvalidEmailError);
+          return "";
         }
         return null;
       },
@@ -117,25 +134,20 @@ class _SignFormState extends State<SignForm> {
       onSaved: (newValue) => password = newValue!,
       onChanged: (value) {
         if ((value.isNotEmpty) && errors.contains(kPassNullError)) {
-          setState(() {
-            errors.remove(kPassNullError);
-          });
+          removeError(kPassNullError);
         } else if (value.length >= 8 && errors.contains(kShortPassError)) {
-          setState(() {
-            errors.remove(kShortPassError);
-          });
+          removeError(kShortPassError);
         }
+        return null;
       },
       validator: (value) {
         if ((value == null || value.isEmpty) &&
             !errors.contains(kPassNullError)) {
-          setState(() {
-            errors.add(kPassNullError);
-          });
+          addError(kPassNullError);
+          return "";
         } else if (value!.length < 8 && !errors.contains(kShortPassError)) {
-          setState(() {
-            errors.add(kShortPassError);
-          });
+          addError(kShortPassError);
+          return "";
         }
         return null;
       },
