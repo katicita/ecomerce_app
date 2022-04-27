@@ -62,7 +62,6 @@ class _SignFormState extends State<SignForm> {
             press: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-
                 //If all is ok
                 Navigator.pushNamed(context, LoginSuccessScreen.routeName);
               }
